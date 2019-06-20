@@ -1,15 +1,12 @@
 package com.imooc.repository;
 
 import com.imooc.entity.House;
-import com.imooc.entity.Role;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @description: 角色数据DAO
@@ -23,7 +20,19 @@ public interface HouseRepository extends PagingAndSortingRepository<House, Long>
      * @param id
      * @param cover
      */
+    @Transactional(rollbackFor = Exception.class)
     @Modifying
-    @Query(value = "UPDATE House as house set house.cover = :cover where house.id = :id", nativeQuery = true)
+    @Query(value = "UPDATE House as house set house.cover = :cover where house.id = :id")
     void updateCover(@Param(value = "id") Long id, @Param(value = "") String cover);
+
+    /**
+     * 修改房源状态
+     * @param id
+     * @param status
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
+    @Query("update House as house set house.status = :status where house.id = :id")
+    void updateStatus(@Param(value = "id") Long id, @Param(value = "status") int status);
+
 }

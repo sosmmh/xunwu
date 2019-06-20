@@ -20,4 +20,5 @@ public enum  HouseStatus {
     HouseStatus(int value) {
         this.value = value;
     }
+
 }

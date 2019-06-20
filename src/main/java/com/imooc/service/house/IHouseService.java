@@ -58,6 +58,14 @@ public interface IHouseService {
     ServiceResult addTag(Long houseId, String tag);
 
     /**
+     * 移除标签
+     * @param houseId
+     * @param tag
+     * @return
+     */
+    ServiceResult removeTag(Long houseId, String tag);
+
+    /**
      * 修改房子信息
      * @param houseForm
      * @return
@@ -65,10 +73,12 @@ public interface IHouseService {
     ServiceResult update(HouseForm houseForm);
 
     /**
-     * 移除标签
-     * @param houseId
-     * @param tag
+     * 修改房源状态
+     * @param id
+     * @param status
      * @return
      */
-    ServiceResult removeTag(Long houseId, String tag);
+    ServiceResult updateStatus(Long id, int status);
+
+
 }

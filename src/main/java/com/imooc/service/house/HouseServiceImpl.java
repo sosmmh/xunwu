@@ -220,7 +220,31 @@ public class HouseServiceImpl implements IHouseService {
 
     @Override
     public ServiceResult addTag(Long houseId, String tag) {
-        return null;
+
+        House house = houseRepository.findOne(houseId);
+        if (house == null) {
+            return ServiceResult.notFound();
+        }
+
+        HouseTag houseTag = new HouseTag(houseId, tag);
+        houseTagRepository.save(houseTag);
+
+        return ServiceResult.success();
+    }
+
+    @Override
+    public ServiceResult removeTag(Long houseId, String tag) {
+
+        House house = houseRepository.findOne(houseId);
+        if (house == null) {
+            return ServiceResult.notFound();
+        }
+
+        HouseTag houseTag = houseTagRepository.findByHouseIdAndName(house.getId(), tag);
+
+        houseTagRepository.delete(houseTag.getId());
+
+        return ServiceResult.success();
     }
 
     @Override
@@ -258,8 +282,28 @@ public class HouseServiceImpl implements IHouseService {
     }
 
     @Override
-    public ServiceResult removeTag(Long houseId, String tag) {
-        return null;
+    public ServiceResult updateStatus(Long id, int status) {
+
+        House house = houseRepository.findOne(id);
+        if (house == null) {
+            return ServiceResult.notFound();
+        }
+
+        if (house.getStatus() == status) {
+            return new ServiceResult(false, "状态没有发生变化");
+        }
+
+        if (house.getStatus() == HouseStatus.RENTED.getValue()) {
+            return new ServiceResult(false, "已出租的房源不允许修改状态");
+        }
+
+        if (house.getStatus() == HouseStatus.DELETED.getValue()) {
+            return new ServiceResult(false, "已删除的资源不允许操作");
+        }
+
+        houseRepository.updateStatus(house.getId(), status);
+
+        return ServiceResult.success();
     }
 
     private List<HousePicture> generatePictures(HouseForm houseForm, Long houseId) {

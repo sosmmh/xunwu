@@ -12,5 +12,19 @@ import java.util.List;
  */
 public interface HouseTagRepository extends CrudRepository<HouseTag, Long> {
 
+    /**
+     * 根据houseId查询所有标签
+     * @param id
+     * @return
+     */
     List<HouseTag> findAllByHouseId(Long id);
+
+    /**
+     * 根据houseId和标签名查找
+     * @param houseId
+     * @param name
+     * @return
+     */
+    HouseTag findByHouseIdAndName(Long houseId, String name);
+
 }
