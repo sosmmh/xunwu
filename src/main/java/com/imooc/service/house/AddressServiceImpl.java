@@ -132,4 +132,19 @@ public class AddressServiceImpl implements IAddressService {
         }
         return ServiceResult.of(modelMapper.map(station, SubwayStationDTO.class));
     }
+
+    @Override
+    public ServiceResult<SupportAddressDTO> findCity(String cityEnName) {
+
+        if (cityEnName ==  null) {
+            return ServiceResult.notFound();
+        }
+
+        SupportAddress supportAddress = supportAddressRepository.findByEnNameAndLevel(cityEnName, SupportAddress.Level.CITY.getValue());
+        if (supportAddress == null) {
+            return ServiceResult.notFound();
+        }
+
+        return ServiceResult.of(modelMapper.map(supportAddress, SupportAddressDTO.class));
+    }
 }

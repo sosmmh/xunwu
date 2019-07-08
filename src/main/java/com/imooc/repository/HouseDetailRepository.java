@@ -3,6 +3,8 @@ package com.imooc.repository;
 import com.imooc.entity.HouseDetail;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * @description: 角色数据DAO
  * @author: lixiahan
@@ -11,4 +13,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface HouseDetailRepository extends CrudRepository<HouseDetail, Long> {
 
     HouseDetail findByHouseId(Long houseId);
+
+    List<HouseDetail> findAllByHouseIdIn(List<Long> houseIds);
 }

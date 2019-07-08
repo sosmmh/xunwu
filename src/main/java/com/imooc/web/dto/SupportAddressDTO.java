@@ -14,7 +14,7 @@ public class SupportAddressDTO {
     private Long id;
 
     @JsonProperty(value = "belong_to")
-    private String bolongTo;
+    private String belongTo;
 
     @JsonProperty(value = "en_name")
     private String enName;

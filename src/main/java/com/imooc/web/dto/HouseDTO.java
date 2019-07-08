@@ -2,6 +2,7 @@ package com.imooc.web.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -65,4 +66,11 @@ public class HouseDTO {
     private List<HousePictureDTO> pictures;
 
     private int subscribeStatus;
+
+    public List<String> getTags() {
+        if (this.tags == null) {
+            this.tags = new ArrayList<>();
+        }
+        return tags;
+    }
 }
