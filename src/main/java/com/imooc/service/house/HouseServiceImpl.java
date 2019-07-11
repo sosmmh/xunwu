@@ -8,6 +8,7 @@ import com.imooc.entity.*;
 import com.imooc.repository.*;
 import com.imooc.service.ServiceMultiResult;
 import com.imooc.service.ServiceResult;
+import com.imooc.service.search.ISearchService;
 import com.imooc.web.dto.HouseDTO;
 import com.imooc.web.dto.HouseDetailDTO;
 import com.imooc.web.dto.HousePictureDTO;
@@ -66,6 +67,9 @@ public class HouseServiceImpl implements IHouseService {
 
     @Autowired
     private IQiNiuService qiNiuService;
+
+    @Autowired
+    private ISearchService searchService;
 
     @Value("${qiniu.cdn.prefix}")
     private String cdnPrefix;
@@ -282,6 +286,10 @@ public class HouseServiceImpl implements IHouseService {
         house.setLastUpdateTime(new Date());
         houseRepository.save(house);
 
+        if (house.getStatus() == HouseStatus.PASSES.getValue()) {
+            searchService.index(house.getId());
+        }
+
         return ServiceResult.success();
     }
 
@@ -306,6 +314,13 @@ public class HouseServiceImpl implements IHouseService {
         }
 
         houseRepository.updateStatus(house.getId(), status);
+
+        // 上架要更新索引，其他情况要删除索引
+        if (status == HouseStatus.PASSES.getValue()) {
+            searchService.index(house.getId());
+        } else {
+            searchService.remove(house.getId());
+        }
 
         return ServiceResult.success();
     }
