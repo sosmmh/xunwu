@@ -11,7 +11,9 @@
         },
         "title": {
           "type": "text",
-          "index": "analyzed"
+          "index": "analyzed",
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
         "price": {
           "type": "integer"

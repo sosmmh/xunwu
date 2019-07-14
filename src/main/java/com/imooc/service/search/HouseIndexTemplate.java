@@ -32,6 +32,8 @@ public class HouseIndexTemplate {
 
     private int distanceToSubway;
 
+    private int room;
+
     private String subwayLineName;
 
     private String subwayStationName;
@@ -51,6 +53,8 @@ public class HouseIndexTemplate {
     private int rentWay;
 
     private List<String> tags;
+
+    private List<HouseSuggest> suggest;
 
 //    private List<HouseSuggest> suggest;
 //

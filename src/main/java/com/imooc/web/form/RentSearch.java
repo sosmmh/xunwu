@@ -1,6 +1,8 @@
 package com.imooc.web.form;
 
+import com.imooc.base.RentValueBlock;
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @description: 租房请求参数结构体
@@ -41,6 +43,12 @@ public class RentSearch {
         } else {
             return -1;
         }
+    }
+
+    public boolean elasticSearch() {
+        return !ObjectUtils.isEmpty(keywords) || room > 0 || rentWay > -1 || direction > 0
+                || !RentValueBlock.ALL.equals(RentValueBlock.matchArea(areaBlock))
+                || !RentValueBlock.ALL.equals(RentValueBlock.matchPrice(priceBlock));
     }
 
 }

@@ -20,6 +20,7 @@ public class HouseIndexKey {
     public static final String DIRECTION = "direction";
     public static final String DISTANCE_TO_SUBWAY = "distanceToSubway";
     public static final String STREET = "street";
+    public static final String ROOM = "room";
     public static final String DISTRICT = "district";
     public static final String DESCRIPTION = "description";
     public static final String LAYOUT_DESC = "layoutDesc";

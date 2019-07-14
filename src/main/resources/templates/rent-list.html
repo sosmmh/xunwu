@@ -128,15 +128,15 @@
                         <div class="option-list room-select">
                             <!--th:class="${searchBody.layout == 0} ? 'on' : ''"-->
                             <a data-bind="0" href="javascript:void(0);"
-                               onclick="changeSimpleCondition('layout', 0)">不限</a>
+                               onclick="changeSimpleCondition('room', 0)">不限</a>
                             <a data-bind="1" href="javascript:void(0);"
-                               onclick="changeSimpleCondition('layout', 1)">一室</a>
+                               onclick="changeSimpleCondition('room', 1)">一室</a>
                             <a data-bind="2" href="javascript:void(0);"
-                               onclick="changeSimpleCondition('layout', 2)">二室</a>
+                               onclick="changeSimpleCondition('room', 2)">二室</a>
                             <a data-bind="3" href="javascript:void(0);"
-                               onclick="changeSimpleCondition('layout', 3)">三室</a>
+                               onclick="changeSimpleCondition('room', 3)">三室</a>
                             <a data-bind="4" href="javascript:void(0);"
-                               onclick="changeSimpleCondition('layout', 4)">四室</a>
+                               onclick="changeSimpleCondition('room', 4)">四室</a>
                             <a data-bind="5" href="javascript:void(0);" onclick="changeSimpleCondition('room', 5)">五室及以上
                             </a>
                         </div>
@@ -437,7 +437,7 @@
 
         $('#keyword-box').autocomplete({
             minLength: 2, // 最小字符数，默认1
-            delay: 300, // 延迟加载300ms
+            delay: 300, // 延迟加载1000ms
             source: function (request, response) { // 数据源
                 $.ajax({
                     url: '/rent/house/autocomplete?prefix=' + request.term,
@@ -450,7 +450,10 @@
             },
             select: function (event, ui) { // 选中事件
                 $('#keyword-box').text(ui.item.value);
-                window.location.href = locate_url(start, size);
+                setTimeout(function(){
+                    window.location.href = locate_url(start, size);
+                }, 100);
+                // window.location.href = locate_url(start, size);
             }
         });
 

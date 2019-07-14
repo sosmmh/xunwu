@@ -8,6 +8,7 @@ import com.imooc.service.ServiceMultiResult;
 import com.imooc.service.ServiceResult;
 import com.imooc.service.house.IAddressService;
 import com.imooc.service.house.IHouseService;
+import com.imooc.service.search.ISearchService;
 import com.imooc.web.dto.*;
 import com.imooc.web.form.RentSearch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,23 @@ public class HouseController {
 
     @Autowired
     private IHouseService houseService;
+
+    @Autowired
+    private ISearchService searchService;
+
+
+    @GetMapping("/rent/house/autocomplete")
+    @ResponseBody
+    public ApiResponse autoComplete(@RequestParam(value = "prefix") String prefix) {
+
+        if (prefix.isEmpty()) {
+            return ApiResponse.ofStatus(ApiResponse.Status.BAD_REQUEST);
+        }
+
+        ServiceResult<List<String>> result = searchService.suggest(prefix);
+
+        return ApiResponse.ofSuccess(result.getResult());
+    }
 
     @GetMapping("/address/support/cities")
     @ResponseBody
@@ -154,9 +172,32 @@ public class HouseController {
         model.addAttribute("house", houseDTO);
 
         // 多少套出租中
-//        ServiceResult<Long> aggResult = searchService.aggregateDistrictHouse(city.getEnName(), region.getEnName(), houseDTO.getDistrict());
-        model.addAttribute("houseCountInDistrict", 0);
+        ServiceResult<Long> aggResult = searchService.aggregateDistrictHouse(city.getEnName(), region.getEnName(), houseDTO.getDistrict());
+        model.addAttribute("houseCountInDistrict", aggResult.getResult());
 
         return "house-detail";
+    }
+
+    @GetMapping("rent/house/map")
+    public String rentMapPage(@RequestParam(value = "cityEnName") String cityEnName,
+                              Model model,
+                              HttpSession session,
+                              RedirectAttributes redirectAttributes) {
+
+        ServiceResult<SupportAddressDTO> city = addressService.findCity(cityEnName);
+        if (!city.isSuccess()) {
+            redirectAttributes.addAttribute("msg", "must_chose_city");
+            return "redirect:/index";
+        } else {
+            session.setAttribute("cityName", cityEnName);
+            model.addAttribute("city", city.getResult());
+        }
+
+        ServiceMultiResult<SupportAddressDTO> regions = addressService.findAllRegionsByCityName(cityEnName);
+
+        model.addAttribute("total", 0);
+        model.addAttribute("regions", regions.getResult());
+
+        return "rent-map";
     }
 }
