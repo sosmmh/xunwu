@@ -80,6 +80,9 @@
         },
         "suggest": {
           "type": "completion"
+        },
+        "location": {
+          "type": "geo_point"
         }
       }
     }

@@ -3,6 +3,8 @@ package com.imooc.web.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import javax.persistence.Column;
+
 /**
  * @description:
  * @author: lixiahan
@@ -23,4 +25,8 @@ public class SupportAddressDTO {
     private String cnName;
 
     private String level;
+
+    private double baiduMapLongitude;
+
+    private double baiduMapLatitude;
 }

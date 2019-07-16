@@ -56,9 +56,6 @@ public class HouseIndexTemplate {
 
     private List<HouseSuggest> suggest;
 
-//    private List<HouseSuggest> suggest;
-//
-//    private BaiduMapLocation location;
-//
+    private BaiduMapLocation location;
 
 }

@@ -3,6 +3,7 @@ package com.imooc.service.house;
 import com.imooc.entity.SupportAddress;
 import com.imooc.service.ServiceMultiResult;
 import com.imooc.service.ServiceResult;
+import com.imooc.service.search.BaiduMapLocation;
 import com.imooc.web.dto.SubwayDTO;
 import com.imooc.web.dto.SubwayStationDTO;
 import com.imooc.web.dto.SupportAddressDTO;
@@ -71,4 +72,23 @@ public interface IAddressService {
      * @return
      */
     ServiceResult<SupportAddressDTO> findCity(String cityEnName);
+
+    /**
+     * 根据城市以及具体地址获取百度地图的经纬度
+     */
+    ServiceResult<BaiduMapLocation> getBaiduMapLocation(String city, String address);
+
+    /**
+     * 上传百度LBS数据
+     * @return
+     */
+    ServiceResult lbsUpload(BaiduMapLocation location, String title, String address,
+                            Long houseId, int price, int area);
+
+    /**
+     * 移除百度LBS数据
+     * @param houseId
+     * @return
+     */
+    ServiceResult lbsRemove(Long houseId);
 }

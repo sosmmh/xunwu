@@ -28,7 +28,14 @@ public class SupportAddress {
     @Column(name = "cn_name")
     private String cnName;
 
+    @Column(name = "level")
     private String level;
+
+    @Column(name = "baidu_map_lng")
+    private double baiduMapLongitude;
+
+    @Column(name = "baidu_map_lat")
+    private double baiduMapLatitude;
 
     /**
      * 行政级别

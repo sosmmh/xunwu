@@ -12,10 +12,7 @@ import com.imooc.service.search.ISearchService;
 import com.imooc.web.dto.HouseDTO;
 import com.imooc.web.dto.HouseDetailDTO;
 import com.imooc.web.dto.HousePictureDTO;
-import com.imooc.web.form.DataTableSearch;
-import com.imooc.web.form.HouseForm;
-import com.imooc.web.form.PhotoForm;
-import com.imooc.web.form.RentSearch;
+import com.imooc.web.form.*;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
 import org.modelmapper.ModelMapper;
@@ -355,6 +352,33 @@ public class HouseServiceImpl implements IHouseService {
         }
 
         return simpleQuery(rentSearch);
+    }
+
+    @Override
+    public ServiceMultiResult<HouseDTO> wholeMapQuery(MapSearch mapSearch) {
+        ServiceMultiResult<Long> serviceResult = searchService.mapQuery(mapSearch.getCityEnName(), mapSearch.getOrderBy(),
+                mapSearch.getOrderDirection(), mapSearch.getStart(), mapSearch.getSize());
+
+        if (serviceResult.getTotal() == 0) {
+            return new ServiceMultiResult<>(0, new ArrayList<>());
+        }
+
+        List<HouseDTO> houses = wrapperHouseResult(serviceResult.getResult());
+
+        return new ServiceMultiResult<>(serviceResult.getTotal(), houses);
+    }
+
+    @Override
+    public ServiceMultiResult<HouseDTO> boundMapQuery(MapSearch mapSearch) {
+
+        ServiceMultiResult<Long> serviceMultiResult = searchService.mapQuery(mapSearch);
+        if (serviceMultiResult.getTotal() == 0) {
+            return new ServiceMultiResult<>(0, new ArrayList<>());
+        }
+
+        List<HouseDTO> houses = wrapperHouseResult(serviceMultiResult.getResult());
+
+        return new ServiceMultiResult<>(serviceMultiResult.getTotal(), houses);
     }
 
     private ServiceMultiResult<HouseDTO> simpleQuery(RentSearch rentSearch) {
