@@ -1,12 +1,17 @@
 package com.imooc.service.house;
 
+import com.imooc.base.HouseSubscribeStatus;
 import com.imooc.service.ServiceMultiResult;
 import com.imooc.service.ServiceResult;
 import com.imooc.web.dto.HouseDTO;
+import com.imooc.web.dto.HouseSubscribeDTO;
 import com.imooc.web.form.DataTableSearch;
 import com.imooc.web.form.HouseForm;
 import com.imooc.web.form.MapSearch;
 import com.imooc.web.form.RentSearch;
+import org.springframework.data.util.Pair;
+
+import java.util.Date;
 
 /**
  * @description: 房屋管理服务接口
@@ -103,4 +108,48 @@ public interface IHouseService {
      * @return
      */
     ServiceMultiResult<HouseDTO> boundMapQuery(MapSearch mapSearch);
+
+    /**
+     * 加入预约清单
+     * @param houseId
+     * @return
+     */
+    ServiceResult addSubscribeOrder(Long houseId);
+
+    /**
+     * 获取对应状态的预约列表
+     */
+    ServiceMultiResult<Pair<HouseDTO, HouseSubscribeDTO>> querySubscribeList(HouseSubscribeStatus status, int start, int size);
+
+    /**
+     * 预约看房时间
+     * @param houseId
+     * @param orderTime
+     * @param telephone
+     * @param desc
+     * @return
+     */
+    ServiceResult subscribe(Long houseId, Date orderTime, String telephone, String desc);
+
+    /**
+     * 取消预约看房
+     * @param houseId
+     * @return
+     */
+    ServiceResult cancelSubscribe(Long houseId);
+
+    /**
+     * 管理员查询预约列表
+     * @param start
+     * @param size
+     * @return
+     */
+    ServiceMultiResult<Pair<HouseDTO,HouseSubscribeDTO>> findSubscribeList(int start, int size);
+
+    /**
+     * 管理员完成预约
+     * @param houseId
+     * @return
+     */
+    ServiceResult finishSubscribe(Long houseId);
 }

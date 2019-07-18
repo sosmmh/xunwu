@@ -17,10 +17,13 @@ import org.springframework.security.core.AuthenticationException;
  *
  */
 public class AuthProvider implements AuthenticationProvider {
+
 	@Autowired
 	private IUserService userService;
-	
-	private final Md5PasswordEncoder passwordEncoder=new Md5PasswordEncoder();
+
+	@Autowired
+	private Md5PasswordEncoder passwordEncoder;
+
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username=authentication.getName();

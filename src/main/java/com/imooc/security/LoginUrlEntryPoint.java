@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
 	
-	private static final String API_FREFIX = "/api";
+	private static final String API_PREFIX = "/api";
 	private static final String API_CODE_403 = "{\"code\": 403}";
 	private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
 
@@ -69,7 +69,7 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
         String uri = request.getRequestURI();
-        if (uri.startsWith(API_FREFIX)) {
+        if (uri.startsWith(API_PREFIX)) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.setContentType(CONTENT_TYPE);
 
@@ -79,6 +79,5 @@ public class LoginUrlEntryPoint extends LoginUrlAuthenticationEntryPoint {
         } else {
             super.commence(request, response, authException);
         }
-
     }
 }	

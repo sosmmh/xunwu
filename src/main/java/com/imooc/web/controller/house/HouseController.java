@@ -63,7 +63,7 @@ public class HouseController {
     public ApiResponse getSupportCities() {
         ServiceMultiResult<SupportAddressDTO> result = addressService.findAllCities();
         if (result.getResultSize() == 0) {
-            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUNT);
+            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUND);
         }
         return ApiResponse.ofSuccess(result.getResult());
     }
@@ -73,7 +73,7 @@ public class HouseController {
     public ApiResponse getSupportRegions(@RequestParam(value = "city_name") String cityEnName) {
         ServiceMultiResult result = addressService.findAllRegionsByCityName(cityEnName);
         if (result.getResultSize() == 0) {
-            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUNT);
+            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUND);
         }
         return ApiResponse.ofSuccess(result.getResult());
     }
@@ -83,7 +83,7 @@ public class HouseController {
     public ApiResponse getSupportSubwayLine(@RequestParam(value = "city_name") String cityEnName) {
         List<SubwayDTO> result = addressService.findAllSubwayByCity(cityEnName);
         if (result.isEmpty()) {
-            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUNT);
+            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUND);
         }
         return ApiResponse.ofSuccess(result);
     }
@@ -93,7 +93,7 @@ public class HouseController {
     public ApiResponse getSupportSubwayStation(@RequestParam(value = "subway_id") Long subwayId) {
         List<SubwayStationDTO> result = addressService.findAllStationBySubway(subwayId);
         if (result.isEmpty()) {
-            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUNT);
+            return ApiResponse.ofSuccess(ApiResponse.Status.NOT_FOUND);
         }
         return ApiResponse.ofSuccess(result);
     }

@@ -20,7 +20,6 @@ public interface HouseRepository extends PagingAndSortingRepository<House, Long>
      * @param id
      * @param cover
      */
-    @Transactional(rollbackFor = Exception.class)
     @Modifying
     @Query(value = "UPDATE House as house set house.cover = :cover where house.id = :id")
     void updateCover(@Param(value = "id") Long id, @Param(value = "") String cover);
@@ -30,9 +29,15 @@ public interface HouseRepository extends PagingAndSortingRepository<House, Long>
      * @param id
      * @param status
      */
-    @Transactional(rollbackFor = Exception.class)
     @Modifying
     @Query("update House as house set house.status = :status where house.id = :id")
     void updateStatus(@Param(value = "id") Long id, @Param(value = "status") int status);
 
+    /**
+     * 看房热度+1
+     * @param houseId
+     */
+    @Modifying
+    @Query("update House as house set house.watchTimes = house.watchTimes + 1 where house.id = :id")
+    void updateWatchTimes(@Param(value = "id") Long houseId);
 }
