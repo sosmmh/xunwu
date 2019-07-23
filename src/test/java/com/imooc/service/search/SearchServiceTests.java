@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @description:
@@ -57,6 +57,87 @@ public class SearchServiceTests extends ApplicationTests {
         ServiceResult<List<String>> result = searchService.suggest(prefix);
         List<String> suggests = result.getResult();
         System.out.println(suggests);
+    }
+
+    private static class MyTask extends TimerTask {
+
+        private String name;
+        private CountDownLatch latch;
+
+        public MyTask(String name, CountDownLatch latch) {
+            this.name = name;
+            this.latch = latch;
+        }
+
+        @Override
+        public void run() {
+
+            System.out.println(name + " 开始时间：" + new Date());
+            try {
+                Thread.sleep(600000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(name + " 结束时间：" + new Date());
+            latch.countDown();
+        }
+    }
+
+    private static class MyTask2 extends TimerTask {
+
+        private String name;
+
+        public MyTask2(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+
+            System.out.println(name + " 开始时间：" + new Date());
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(name + " 结束时间：" + new Date());
+        }
+    }
+
+
+    public static void main(String[] args) {
+
+//        CountDownLatch latch = new CountDownLatch(2);
+//
+//        Timer timer = new Timer();
+//
+//        MyTask 定时1 = new MyTask("定时1", latch);
+//        MyTask 定时2 = new MyTask("定时2", latch);
+//        timer.schedule(定时1, 1000);
+//        timer.schedule(定时2, 1000);
+//
+//        try {
+//            latch.await();
+//            timer.cancel();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        CountDownLatch latch = new CountDownLatch(2);
+
+        Timer timer = new Timer();
+
+        MyTask2 定时1 = new MyTask2("定时1");
+        MyTask2 定时2 = new MyTask2("定时2");
+        timer.schedule(定时1, 1000);
+        timer.schedule(定时2, 1000);
+
+        try {
+            latch.await();
+            timer.cancel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
